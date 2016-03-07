@@ -11,3 +11,5 @@ table tr td {
 table tr th {
   width: 60px;
 }
+#table { border:1px solid #ccc; }
+#table td.selected { background-color:purple; }
