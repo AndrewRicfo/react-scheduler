@@ -17,20 +17,16 @@ var Table = React.createClass({
   },
   render: function(){
     var self = this;
-    var _days = this.props.tdays;
-    var _hours = this.props.thours;
-    var _sections = this.props.tsections;
-    var cells =[];
-    _hours.map(function(hour, i){
-      _sections.map(function(section, k){
-        cells.push (hour+"-"+section)
-      });
-    })
+    var _days = this.props.days;
+    var _hours = this.props.hours;
+    var _row = this.props.row;
+    var _selectedCells = this.props.selectedCells;
+
     return(
         <table className="table">
           <thead>
             <tr>
-              <th></th>
+              <th>Hours</th>
               {_hours.map(function(hour, i){
                 return(
                   <th colSpan="3" key={i}>{hour}</th>
@@ -43,14 +39,29 @@ var Table = React.createClass({
             return (
               <tr className={day} key={i}>
                 <th>{day}</th>
-                {cells.map(function(cell,i){
-                  return(
-                    <td id={cell} key={i}
-                    onMouseMove={self.handleMouseMove}
-                    onMouseDown={self.handleMouseDown}
-                    onMouseUp={self.handleMouseUp}
-                    onMouseClick={self.handleMouseClick}></td>
-                  )
+                {_row.map(function(cell,i){
+                  if(_selectedCells.includes(cell+day)){
+                    var className ="selected"+ " "+ day +" "+cell;
+                    return(
+                      <td id={cell+day} key={i}
+                      onMouseMove={self.handleMouseMove}
+                      onMouseDown={self.handleMouseDown}
+                      onMouseUp={self.handleMouseUp}
+                      onMouseClick={self.handleMouseClick}
+                      className={className}></td>
+                    )
+                  }else{
+                    var className =day +" "+cell;
+                    return(
+                      <td id={cell+day} key={i}
+                      onMouseMove={self.handleMouseMove}
+                      onMouseDown={self.handleMouseDown}
+                      onMouseUp={self.handleMouseUp}
+                      onMouseClick={self.handleMouseClick}
+                      className={className}></td>
+                    )
+                  }
+
                 })}
               </tr>
             )

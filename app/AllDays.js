@@ -1,7 +1,7 @@
 var React = require('react');
 var $ = require('jquery');
 
-var AllDay = React.createClass({
+var AllDays = React.createClass({
   handleMouseDown: function(i) {
     this.props.downHandler(i)
   },
@@ -10,17 +10,17 @@ var AllDay = React.createClass({
   },
   render: function() {
     var self = this;
-    var _days = this.props.days;
+    var _row = this.props.row;
     return (
-      <ul className="all-day">
-        <p className="all-day-title">all day</p>
-        {_days.map(function(item,i){
+      <ul className="all-days">
+        <p className="all-days-title">all days</p>
+        {_row.map(function(item,i){
           return(
             <li key={i}
             onMouseDown={self.handleMouseDown}
             onMouseUp={self.handleMouseUp}
             className={item}
-            ></li>
+            > </li>
           )
         })}
       </ul>
@@ -28,4 +28,4 @@ var AllDay = React.createClass({
   }
 })
 
-module.exports = AllDay;
+module.exports = AllDays;

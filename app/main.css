@@ -1,3 +1,16 @@
+body {
+  font-family: 'Open Sans';
+  width: 680px;
+  margin: 0 auto;
+}
+#app {
+  display: inline-block;
+  margin-top: 40px;
+
+}
+.clear {
+  clear: both;
+}
 .table {
   border:1px solid #ccc;
   float: left;
@@ -28,5 +41,33 @@
   margin-bottom: 1.5px;
   margin-top: 1.5px;
   box-sizing: border-box;
+}
+.all-days {
+  display: inline-block;
+  padding-left: 20px;
+  margin-top: 0;
+}
+.all-days-title{
+  display: inline-block;
+  width: 100px;
+}
 
+.all-days li{
+  list-style: none;
+  display: inline-block;
+  width: 18px;
+  height: 34px;
+  border: 1px solid black;
+  margin-left: 1px;
+  margin-right: 1px;
+  box-sizing: border-box;
+}
+.table thead tr {
+  background: grey;
+}
+.table tr{
+  background: lightgrey;
+}
+.table tr:nth-of-type(2n) {
+  background: grey;
 }
