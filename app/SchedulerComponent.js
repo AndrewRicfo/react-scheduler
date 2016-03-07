@@ -1,6 +1,7 @@
 var React = require('react');
 var $ = require('jquery');
 var Table = require ('./Table');
+var AllDay = require ('./AllDay');
 
 
 var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday",];
@@ -8,11 +9,11 @@ var hours = ["12am", "3am", "6am", "9am", "12pm", "3pm", "6pm", "9pm"];
 var sections =["a", "b", "c"];
 
 
-var App = React.createClass({
+var SchedulerComponent = React.createClass({
   getInitialState: function(){
     return {
-      dragStart: 0,
-      dragEnd: 0,
+      dragStart: null,
+      dragEnd: null,
       isMouseDown:false,
       isDragging: false,
       range:[]
@@ -22,7 +23,7 @@ var App = React.createClass({
     if (this.rightClick(e)) {
       return false;
     } else {
-      var allCells = $("#table td");
+      var allCells = $(".table td");
       this.setState({
         dragEnd:allCells.index(e.target),
         dragStart: allCells.index(e.target),
@@ -38,7 +39,7 @@ var App = React.createClass({
     if (this.rightClick(e)) {
       return false;
     } else {
-      var allCells = $("#table td");
+      var allCells = $(".table td");
       this.setState({
         dragEnd: allCells.index(e.target),
         isDragging: false,
@@ -57,7 +58,7 @@ var App = React.createClass({
       });
     }
     if(this.state.isDragging) {
-      var allCells = $("#table td");
+      var allCells = $(".table td");
       this.setState({
         dragEnd : allCells.index(e.target)
       });
@@ -71,9 +72,9 @@ var App = React.createClass({
   selectRange: function() {
 
     if(this.state.dragEnd + 1 < this.state.dragStart){
-      $("#table td").slice(this.state.dragEnd, this.state.dragStart +1).addClass('selected');
+      $(".table td").slice(this.state.dragEnd, this.state.dragStart +1).addClass('selected');
     } else {
-      $("#table td").slice(this.state.dragStart, this.state.dragEnd +1).addClass('selected');
+      $(".table td").slice(this.state.dragStart, this.state.dragEnd +1).addClass('selected');
     };
   },
   rightClick: function(e) {
@@ -84,9 +85,61 @@ var App = React.createClass({
     }
     return false;
   },
+  setAllDay: function(i) {
+
+    switch (i.target.className) {
+      case 'Monday':
+      this.setState({
+        dragEnd:0,
+        dragStart:23
+      });
+      break;
+      case 'Tuesday':
+      this.setState({
+        dragEnd:24,
+        dragStart:47
+      });
+      break;
+      case 'Wednesday':
+      this.setState({
+        dragEnd:48,
+        dragStart:71
+      });
+      break;
+      case 'Thursday':
+      this.setState({
+        dragEnd:72,
+        dragStart:95
+      });
+      break;
+      case 'Friday':
+      this.setState({
+        dragEnd:96,
+        dragStart:119
+      });
+      break;
+      case 'Saturday':
+      this.setState({
+        dragEnd:120,
+        dragStart:143
+      });
+      break;
+      case 'Sunday':
+      this.setState({
+        dragEnd:144,
+        dragStart:167
+      });
+      break;
+    }
+
+
+  },
+  selectAllDay: function (i){
+    this.selectRange();
+  },
   render: function(){
     return(
-      <div>
+      <div className="scheduler-container">
         <Table tdays={days}
               thours={hours}
               tsections={sections}
@@ -95,10 +148,11 @@ var App = React.createClass({
               upHandler={this.rangeMouseUp}
               clickHandler={this.rangeMouseClick}
               />
+          <AllDay adays={days} downHandler={this.setAllDay}  upHandler={this.selectAllDay}/>
       </div>
     )
   }
 });
 
 
-module.exports = App;
+module.exports = SchedulerComponent;

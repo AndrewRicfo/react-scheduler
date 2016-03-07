@@ -2,7 +2,7 @@ require('./main.css');
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-var App = require('./App');
+var SchedulerComponent = require('./SchedulerComponent');
 
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<SchedulerComponent />, document.getElementById('app'));
