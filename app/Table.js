@@ -2,20 +2,20 @@ var React = require('react');
 var $ = require('jquery');
 let ClickOutHandler = require('react-onclickout');
 
-var Table = React.createClass({
-  handleMouseMove: function(i) {
+class Table extends React.Component{
+  handleMouseMove(i) {
     this.props.moveHandler(i);
-  },
-  handleMouseUp: function(i) {
+  }
+  handleMouseUp(i) {
     this.props.upHandler(i);
-  },
-  handleMouseDown: function(i) {
+  }
+  handleMouseDown(i) {
     this.props.downHandler(i);
-  },
-  handleMouseClick: function(i) {
+  }
+  handleMouseClick(i) {
     this.props.clickHandler(i)
-  },
-  render: function(){
+  }
+  render(){
     var self = this;
     var _days = this.props.days;
     var _hours = this.props.hours;
@@ -70,6 +70,5 @@ var Table = React.createClass({
         </table>
     )
   }
-})
-
-module.exports = Table
+};
+export default Table;

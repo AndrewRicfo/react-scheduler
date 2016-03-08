@@ -16,17 +16,21 @@ hours.map(function(hour, i){
   });
 })
 
-var SchedulerComponent = React.createClass({
-  getInitialState: function(){
-    return {
+class SchedulerComponent extends React.Component{
+  constructor(props) {
+    super(props);
+    this.rangeMouseDown = this.rangeMouseDown.bind(this);
+    this.rangeMouseUp = this.rangeMouseUp.bind(this);
+    this.rangeMouseMove = this.rangeMouseMove.bind(this);
+    this.state = {
       dragStart: null,
       dragEnd: null,
       isMouseDown:false,
       isDragging: false,
       selectedCells:[]
     }
-  },
-  rangeMouseDown: function(e) {
+  }
+  rangeMouseDown(e) {
     if (this.rightClick(e)) {
       return false;
     } else {
@@ -41,8 +45,8 @@ var SchedulerComponent = React.createClass({
       }
       document.documentElement.onselectstart = function () { return false; };
     }
-  },
-  rangeMouseUp: function(e) {
+  }
+  rangeMouseUp(e) {
     if (this.rightClick(e)) {
       return false;
     } else {
@@ -57,8 +61,8 @@ var SchedulerComponent = React.createClass({
       }
       document.documentElement.onselectstart = function () { return true; };
     }
-  },
-  rangeMouseMove: function(e) {
+  }
+  rangeMouseMove(e) {
     if(this.state.isMouseDown) {
       this.setState({
         isDragging:true
@@ -71,9 +75,9 @@ var SchedulerComponent = React.createClass({
       });
       this.selectRange();
     }
-  },
+  }
 
-  selectRange: function() {
+  selectRange() {
     var self = this;
     var list =[];
     var filteredList=[];
@@ -107,17 +111,16 @@ var SchedulerComponent = React.createClass({
         })
       }
     }
-
-  },
-  rightClick: function(e) {
+  }
+  rightClick(e) {
     if (e.which) {
       return (e.which ==3);
     } else if (e.button) {
       return (e.button == 2);
     }
     return false;
-  },
-  setAllDay: function(i) {
+  }
+  setAllDay(i) {
     var list =[];
     list = row.map(function(item){
       return item+i.target.className;
@@ -126,8 +129,8 @@ var SchedulerComponent = React.createClass({
     this.setState({
       selectedCells: this.state.selectedCells.concat(list)
     })
-  },
-  setAllDays: function (i) {
+  }
+  setAllDays(i) {
     var list =[];
     list = days.map(function(item){
       return i.target.className+item;
@@ -136,8 +139,8 @@ var SchedulerComponent = React.createClass({
     this.setState({
       selectedCells: this.state.selectedCells.concat(list)
     })
-  },
-  render: function(){
+  }
+  render(){
     return(
       <div className="scheduler-container">
         <Table days={days}
@@ -160,7 +163,5 @@ var SchedulerComponent = React.createClass({
       </div>
     )
   }
-});
-
-
-module.exports = SchedulerComponent;
+};
+export default SchedulerComponent;

@@ -1,14 +1,14 @@
 var React = require('react');
 var $ = require('jquery');
 
-var AllDay = React.createClass({
-  handleMouseDown: function(i) {
+class AllDay extends React.Component{
+  handleMouseDown(i) {
     this.props.downHandler(i)
-  },
-  handleMouseUp: function(i) {
+  }
+  handleMouseUp(i) {
     this.props.upHandler(i)
-  },
-  render: function() {
+  }
+  render() {
     var self = this;
     var _days = this.props.days;
     var _selectedCells = this.props.selectedCells;
@@ -47,6 +47,6 @@ var AllDay = React.createClass({
       </table>
     )
   }
-})
+};
 
-module.exports = AllDay;
+export default AllDay
