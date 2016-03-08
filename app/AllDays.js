@@ -1,53 +1,51 @@
-var React = require('react');
-var $ = require('jquery');
+import React from 'react';
 
-var AllDays = React.createClass({
-  handleMouseDown: function(i) {
-    this.props.downHandler(i)
-  },
-  handleMouseUp: function(i) {
-    this.props.upHandler(i)
-  },
-  render: function() {
-    var self = this;
-    var _row = this.props.row;
-    var _selectedCells = this.props.selectedCells;
+class AllDays extends React.Component {
+  constructor() {
+    super();
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+    this.handleMouseUp = this.handleMouseUp.bind(this);
+  }
+  handleMouseDown(i) {
+    this.props.downHandler(i);
+  }
+  handleMouseUp(i) {
+    this.props.upHandler(i);
+  }
+  render() {
     return (
       <div>
-      <table className="table">
+      <table className={"table"}>
       <tbody>
       <tr>
       <th>all days</th>
-        {_row.map(function(item,i){
-          if (_selectedCells.includes(item)){
-            var className ="selected" +" "+item;
-            console.log(item);
-            return(
+        {this.props.row.map((item, i) => {
+          let className;
+          if (this.props.selectedCells.includes(item)) {
+            className = 'selected  + ${item}';
+            return (
               <td key={i}
-              onMouseDown={self.handleMouseDown}
-              onMouseUp={self.handleMouseUp}
+              onMouseDown={this.handleMouseDown}
+              onMouseUp={this.handleMouseUp}
               className={className}
               > </td>
-            )
-          }else {
-            var className = item;
-            return(
-              <td key={i}
-              onMouseDown={self.handleMouseDown}
-              onMouseUp={self.handleMouseUp}
-              className={className}
-              > </td>
-            )
+            );
           }
-
-
+          className = item;
+          return (
+            <td key={i}
+            onMouseDown={this.handleMouseDown}
+            onMouseUp={this.handleMouseUp}
+            className={className}
+            > </td>
+          );
         })}
         </tr>
         </tbody>
       </table>
       </div>
-    )
+    );
   }
-})
+}
 
-module.exports = AllDays;
+export default AllDays;

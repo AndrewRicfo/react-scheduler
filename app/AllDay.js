@@ -1,17 +1,18 @@
-var React = require('react');
-var $ = require('jquery');
+import React from 'react';
 
-var AllDay = React.createClass({
-  handleMouseDown: function(i) {
-    this.props.downHandler(i)
-  },
-  handleMouseUp: function(i) {
-    this.props.upHandler(i)
-  },
-  render: function() {
-    var self = this;
-    var _days = this.props.days;
-    var _selectedCells = this.props.selectedCells;
+class AllDay extends React.Component {
+  constructor() {
+    super();
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+    this.handleMouseUp = this.handleMouseUp.bind(this);
+  }
+  handleMouseDown(i) {
+    this.props.downHandler(i);
+  }
+  handleMouseUp(i) {
+    this.props.upHandler(i);
+  }
+  render() {
     return (
       <table className="table">
         <thead>
@@ -20,33 +21,32 @@ var AllDay = React.createClass({
           </tr>
         </thead>
         <tbody>
-          {_days.map(function(item,i){
-            if(_selectedCells.includes(item)){
-              var className = "selected"+" "+item;
-              console.log(className);
-              return(
+          {this.props.days.map((item, i) => {
+            let className;
+            if (this.props.selectedCells.includes(item)) {
+              className = 'selected +${item}';
+              return (
                 <tr key={i}>
-                  <td onMouseDown={self.handleMouseDown}
-                      onMouseUp={self.handleMouseUp}
+                  <td onMouseDown={this.handleMouseDown}
+                      onMouseUp={this.handleMouseUp}
                       className={className}>
                   </td>
                 </tr>
-              )
-            }else {
-              var className = item;
-              return(
-                <tr key={i}>
-                  <td onMouseDown={self.handleMouseDown}
-                      onMouseUp={self.handleMouseUp}
-                      className={className}>
-                  </td>
-                </tr>)
-              }
+              );
+            }
+            className = item;
+            return (
+              <tr key={i}>
+                <td onMouseDown={this.handleMouseDown}
+                    onMouseUp={this.handleMouseUp}
+                    className={className}>
+                </td>
+              </tr>);
           })}
         </tbody>
       </table>
-    )
+    );
   }
-})
+}
 
-module.exports = AllDay;
+export default AllDay;

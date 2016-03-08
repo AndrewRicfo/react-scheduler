@@ -1,75 +1,68 @@
-var React = require('react');
-var $ = require('jquery');
-let ClickOutHandler = require('react-onclickout');
+import React from 'react';
 
-var Table = React.createClass({
-  handleMouseMove: function(i) {
+class Table extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+    this.handleMouseUp = this.handleMouseUp.bind(this);
+    this.handleMouseMove = this.handleMouseMove.bind(this);
+    this.handleMouseClick = this.handleMouseClick.bind(this);
+  }
+  handleMouseMove(i) {
     this.props.moveHandler(i);
-  },
-  handleMouseUp: function(i) {
+  }
+  handleMouseUp(i) {
     this.props.upHandler(i);
-  },
-  handleMouseDown: function(i) {
+  }
+  handleMouseDown(i) {
     this.props.downHandler(i);
-  },
-  handleMouseClick: function(i) {
-    this.props.clickHandler(i)
-  },
-  render: function(){
-    var self = this;
-    var _days = this.props.days;
-    var _hours = this.props.hours;
-    var _row = this.props.row;
-    var _selectedCells = this.props.selectedCells;
-
-    return(
-        <table className="table">
+  }
+  handleMouseClick(i) {
+    this.props.clickHandler(i);
+  }
+  render() {
+    return (
+        <table className={'table main-table'}>
           <thead>
             <tr>
               <th>Hours</th>
-              {_hours.map(function(hour, i){
-                return(
-                  <th colSpan="3" key={i}>{hour}</th>
-                )
-              })}
+              {this.props.hours.map((hour, i) => <th colSpan={'3'} key={i}>{hour}</th>)}
             </tr>
           </thead>
           <tbody>
-          {_days.map(function(day,i){
+          {this.props.days.map((day, i) => {
             return (
               <tr className={day} key={i}>
                 <th>{day}</th>
-                {_row.map(function(cell,i){
-                  if(_selectedCells.includes(cell+day)){
-                    var className ="selected"+ " "+ day +" "+cell;
-                    return(
-                      <td id={cell+day} key={i}
-                      onMouseMove={self.handleMouseMove}
-                      onMouseDown={self.handleMouseDown}
-                      onMouseUp={self.handleMouseUp}
-                      onMouseClick={self.handleMouseClick}
+                {this.props.row.map((cell, i) => {
+                  let className;
+                  if (this.props.selectedCells.includes(cell + day)) {
+                    className = 'selected' + ' ' + day + ' ' + cell;
+                    return (
+                      <td id={cell + day} key={i}
+                      onMouseMove={this.handleMouseMove}
+                      onMouseDown={this.handleMouseDown}
+                      onMouseUp={this.handleMouseUp}
+                      onClick={this.handleMouseClick}
                       className={className}></td>
-                    )
-                  }else{
-                    var className =day +" "+cell;
-                    return(
-                      <td id={cell+day} key={i}
-                      onMouseMove={self.handleMouseMove}
-                      onMouseDown={self.handleMouseDown}
-                      onMouseUp={self.handleMouseUp}
-                      onMouseClick={self.handleMouseClick}
-                      className={className}></td>
-                    )
+                    );
                   }
-
+                  className = day + ' ' + cell;
+                  return (
+                    <td id={cell + day} key={i}
+                    onMouseMove={this.handleMouseMove}
+                    onMouseDown={this.handleMouseDown}
+                    onMouseUp={this.handleMouseUp}
+                    onClick={this.handleMouseClick}
+                    className={className}></td>
+                  );
                 })}
               </tr>
-            )
+            );
           })}
           </tbody>
         </table>
-    )
+    );
   }
-})
-
-module.exports = Table
+}
+export default Table;
