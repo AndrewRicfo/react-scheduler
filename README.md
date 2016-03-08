@@ -20,3 +20,6 @@ npm start
 ```
 command in the directory where webpack.config file is placed.
 
+#demo
+
+![demo](https://github.com/hanakamer/react-scheduler/blob/master/demo.gif)
