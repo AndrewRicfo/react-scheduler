@@ -1,7 +1,6 @@
 import React from 'react';
-import $ from 'jquery';
 
-class Table extends React.Component{
+class Table extends React.Component {
   constructor(props) {
     super(props);
     this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -21,55 +20,49 @@ class Table extends React.Component{
   handleMouseClick(i) {
     this.props.clickHandler(i);
   }
-  render(){
-    return(
-        <table className="table main-table">
+  render() {
+    return (
+        <table className={'table main-table'}>
           <thead>
             <tr>
               <th>Hours</th>
-              { this.props.hours.map((hour, i)=>{
-                return(
-                  <th colSpan="3" key={i}>{hour}</th>
-                )
-              })}
+              {this.props.hours.map((hour, i) => <th colSpan={'3'} key={i}>{hour}</th>)}
             </tr>
           </thead>
           <tbody>
-          {this.props.days.map((day,i)=>{
-
+          {this.props.days.map((day, i) => {
             return (
               <tr className={day} key={i}>
                 <th>{day}</th>
-                {this.props.row.map((cell,i)=>{
-                  if(this.props.selectedCells.includes(cell+day)){
-                    var className ="selected"+ " "+ day +" "+cell;
-                    return(
-                      <td id={cell+day} key={i}
+                {this.props.row.map((cell, i) => {
+                  let className;
+                  if (this.props.selectedCells.includes(cell + day)) {
+                    className = 'selected' + ' ' + day + ' ' + cell;
+                    return (
+                      <td id={cell + day} key={i}
                       onMouseMove={this.handleMouseMove}
                       onMouseDown={this.handleMouseDown}
                       onMouseUp={this.handleMouseUp}
                       onClick={this.handleMouseClick}
                       className={className}></td>
-                    )
-                  }else{
-                    var className =day +" "+cell;
-                    return(
-                      <td id={cell+day} key={i}
-                      onMouseMove={this.handleMouseMove}
-                      onMouseDown={this.handleMouseDown}
-                      onMouseUp={this.handleMouseUp}
-                      onClick={this.handleMouseClick}
-                      className={className}></td>
-                    )
+                    );
                   }
-
+                  className = day + ' ' + cell;
+                  return (
+                    <td id={cell + day} key={i}
+                    onMouseMove={this.handleMouseMove}
+                    onMouseDown={this.handleMouseDown}
+                    onMouseUp={this.handleMouseUp}
+                    onClick={this.handleMouseClick}
+                    className={className}></td>
+                  );
                 })}
               </tr>
-            )
+            );
           })}
           </tbody>
         </table>
-    )
+    );
   }
-};
+}
 export default Table;
