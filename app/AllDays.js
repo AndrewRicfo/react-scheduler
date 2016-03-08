@@ -24,10 +24,9 @@ class AllDays extends React.Component{
       <tbody>
       <tr>
       <th>all days</th>
-        {_row.map(function(item,i){
+        {_row.map((item,i)=>{
           if (_selectedCells.includes(item)){
             var className ="selected" +" "+item;
-            console.log(item);
             return(
               <td key={i}
               onMouseDown={_handleMouseDown}

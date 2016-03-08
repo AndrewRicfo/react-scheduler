@@ -1,11 +1,13 @@
 body {
   font-family: 'Open Sans';
-
+  width:100%;
+  text-align: center;
+  color: #243743;
 }
 #app {
   display: inline-block;
-  margin-top: 40px;
-
+  margin: 40px auto;
+  background:	#FAFAFA;
 }
 .clear {
   clear: both;
@@ -22,8 +24,12 @@ body {
 }
 .table tbody tr th {
   width: 100px;
+  background: #8A949B;
 }
-.table td.selected { background-color:purple; }
+.table thead tr th {
+  background: #8A949B;
+}
+.table td.selected { background-color: #28B78D;}
 .all-day {
   float: left;
   margin-top: 0;
@@ -41,12 +47,9 @@ body {
   margin-top: 1.5px;
   box-sizing: border-box;
 }
-.table thead tr {
-  background: grey;
-}
-.table tr{
-  background: lightgrey;
-}
-.table tr:nth-of-type(2n) {
-  background: grey;
+.clear-button {
+  width: 150px;
+  border:none;
+  margin: 15px;
+  height: 30px;
 }

@@ -2,11 +2,12 @@ import React from 'react';
 import $ from 'jquery';
 
 class Table extends React.Component{
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
+    this.handleMouseClick = this.handleMouseClick.bind(this);
   }
   handleMouseMove(i) {
     this.props.moveHandler(i);
@@ -18,24 +19,15 @@ class Table extends React.Component{
     this.props.downHandler(i);
   }
   handleMouseClick(i) {
-    this.props.clickHandler(i)
+    this.props.clickHandler(i);
   }
   render(){
-    var _days = this.props.days;
-    var _hours = this.props.hours;
-    var _row = this.props.row;
-    var _selectedCells = this.props.selectedCells;
-    var _handleMouseMove = this.handleMouseMove;
-    var _handleMouseUp = this.handleMouseUp;
-    var _handleMouseDown = this.handleMouseDown;
-    var _handleMouseClick = this.handleMouseClick;
     return(
-        <table className="table">
+        <table className="table main-table">
           <thead>
             <tr>
               <th>Hours</th>
-              {_hours.map(function(hour, i){
-
+              { this.props.hours.map((hour, i)=>{
                 return(
                   <th colSpan="3" key={i}>{hour}</th>
                 )
@@ -43,32 +35,30 @@ class Table extends React.Component{
             </tr>
           </thead>
           <tbody>
-          {_days.map(function(day,i){
+          {this.props.days.map((day,i)=>{
 
             return (
               <tr className={day} key={i}>
                 <th>{day}</th>
-                {_row.map(function(cell,i){
-
-                  if(_selectedCells.includes(cell+day)){
+                {this.props.row.map((cell,i)=>{
+                  if(this.props.selectedCells.includes(cell+day)){
                     var className ="selected"+ " "+ day +" "+cell;
-
                     return(
                       <td id={cell+day} key={i}
-                      onMouseMove={_handleMouseMove}
-                      onMouseDown={_handleMouseDown}
-                      onMouseUp={_handleMouseUp}
-                      onMouseClick={_handleMouseClick}
+                      onMouseMove={this.handleMouseMove}
+                      onMouseDown={this.handleMouseDown}
+                      onMouseUp={this.handleMouseUp}
+                      onClick={this.handleMouseClick}
                       className={className}></td>
                     )
                   }else{
                     var className =day +" "+cell;
                     return(
                       <td id={cell+day} key={i}
-                      onMouseMove={_handleMouseMove}
-                      onMouseDown={_handleMouseDown}
-                      onMouseUp={_handleMouseUp}
-                      onMouseClick={_handleMouseClick}
+                      onMouseMove={this.handleMouseMove}
+                      onMouseDown={this.handleMouseDown}
+                      onMouseUp={this.handleMouseUp}
+                      onClick={this.handleMouseClick}
                       className={className}></td>
                     )
                   }

@@ -3,6 +3,7 @@ import $ from 'jquery';
 import Table from './Table';
 import AllDay from './AllDay';
 import AllDays from './AllDays';
+import Clear from './Clear';
 
 
 
@@ -11,8 +12,8 @@ const hours = ["12am", "3am", "6am", "9am", "12pm", "3pm", "6pm", "9pm"];
 const sections =["a", "b", "c"];
 const row = [];
 
-hours.map(function(hour, i){
-  sections.map(function(section, k){
+hours.map((hour)=>{
+  sections.map((section)=>{
     row.push (hour+"-"+section)
   });
 })
@@ -26,75 +27,81 @@ class SchedulerComponent extends React.Component{
     this.setAllDays = this.setAllDays.bind(this);
     this.setAllDay = this.setAllDay.bind(this);
     this.selectRange = this.selectRange.bind(this);
+    this.deleteCell = this.deleteCell.bind(this);
+    this.Clear = this.Clear.bind(this);
     this.state = {
       dragStart: null,
       dragEnd: null,
       isMouseDown:false,
       isDragging: false,
-      selectedCells:[]
+      selectedCells:[],
+      clearMode: false
     }
   }
   rangeMouseDown(e) {
-    if (this.rightClick(e)) {
-      return false;
-    } else {
-      var allCells = $(".table td");
-      this.setState({
-        dragEnd:allCells.index(e.target),
-        dragStart: allCells.index(e.target),
-        isMouseDown: true
-      });
-      if (typeof e.preventDefault != 'undefined') {
-        e.preventDefault();
+    if(!this.state.clearMode){
+      if (this.rightClick(e)) {
+        return false;
+      } else {
+        var allCells = $(".table td");
+        this.setState({
+          dragEnd:allCells.index(e.target),
+          dragStart: allCells.index(e.target),
+          isMouseDown: true
+        });
+        if (typeof e.preventDefault != 'undefined') {
+          e.preventDefault();
+        }
+        document.documentElement.onselectstart = function () { return false; };
       }
-      document.documentElement.onselectstart = function () { return false; };
     }
   }
   rangeMouseUp(e) {
-    if (this.rightClick(e)) {
-      return false;
-    } else {
-      var allCells = $(".table td");
-      this.setState({
-        dragEnd: allCells.index(e.target),
-        isDragging: false,
-        isMouseDown: false
-      });
-      if ( this.state.dragEnd != -1) {
-        this.selectRange();
+    if(!this.state.clearMode){
+      if (this.rightClick(e)) {
+        return false;
+      } else {
+        var allCells = $(".table td");
+        this.setState({
+          dragEnd: allCells.index(e.target),
+          isDragging: false,
+          isMouseDown: false
+        });
+        if ( this.state.dragEnd != -1) {
+          this.selectRange();
+        }
+        document.documentElement.onselectstart = function () { return true; };
       }
-      document.documentElement.onselectstart = function () { return true; };
     }
   }
   rangeMouseMove(e) {
-    if(this.state.isMouseDown) {
-      this.setState({
-        isDragging:true
-      });
-    }
-    if(this.state.isDragging) {
-      var allCells = $(".table td");
-      this.setState({
-        dragEnd : allCells.index(e.target)
-      });
-      this.selectRange();
+    if (!this.state.clearMode) {
+      if(this.state.isMouseDown) {
+        this.setState({
+          isDragging:true
+        });
+      }
+      if(this.state.isDragging) {
+        var allCells = $(".table td");
+        this.setState({
+          dragEnd : allCells.index(e.target)
+        });
+        this.selectRange();
+      }
     }
   }
-
   selectRange() {
-    var self = this;
     var list =[];
     var filteredList=[];
     var addList = [];
-
     if (this.state.dragEnd != null && this.state.dragStart != null){
       if(this.state.dragEnd + 1 < this.state.dragStart){
         list =$(".table td").slice(this.state.dragEnd, this.state.dragStart +1);
-        filteredList = list.filter(function(index){
-          var result = self.state.selectedCells.indexOf(list[index].id)===(-1);
+        filteredList = list.filter((index)=>{
+          var result = this.state.selectedCells.indexOf(list[index].id)===(-1);
           return result
         }).toArray()
-        addList = filteredList.map(function(item,index){
+        addList = filteredList.map((item)=>{
           return item.id
         });
         this.setState({
@@ -103,11 +110,11 @@ class SchedulerComponent extends React.Component{
 
       } else {
         list =$(".table td").slice(this.state.dragStart, this.state.dragEnd +1);
-        filteredList = list.filter(function(index){
-          var result = self.state.selectedCells.indexOf(list[index].id)===(-1);
+        filteredList = list.filter((index)=>{
+          var result = this.state.selectedCells.indexOf(list[index].id)===(-1);
           return result
         }).toArray();
-        addList = filteredList.map(function(item,index){
+        addList = filteredList.map((item)=>{
           return item.id
         });
         this.setState({
@@ -126,7 +133,7 @@ class SchedulerComponent extends React.Component{
   }
   setAllDay(i) {
     var list =[];
-    list = row.map(function(item){
+    list = row.map((item)=>{
       return item+i.target.className;
     })
     list.push(i.target.className);
@@ -136,26 +143,48 @@ class SchedulerComponent extends React.Component{
   }
   setAllDays(i) {
     var list =[];
-    list = days.map(function(item){
+    list = days.map((item)=>{
       return i.target.className+item;
     });
     list.push(i.target.className);
-    console.log(this);
     this.setState({
       selectedCells: this.state.selectedCells.concat(list)
     })
   }
+  Clear(){
+    if(this.state.clearMode){
+      this.setState({
+        clearMode:false
+      })
+    }else{
+      this.setState({
+        clearMode:true
+      })
+    }
+  }
+  deleteCell(e){
+    if(this.state.clearMode){
+      var list = this.state.selectedCells.slice();
+      if (this.state.selectedCells.includes(e.target.id)){
+        list.splice(this.state.selectedCells.indexOf(e.target.id),1)
+        this.setState({
+          selectedCells: list
+        })
+      }
+    }
+  }
   render(){
     return(
       <div className="scheduler-container">
+        <Clear clickHandler= {this.Clear} clearMode={this.state.clearMode}/>
         <Table days={days}
                 hours={hours}
                 row={row}
                 moveHandler={this.rangeMouseMove}
                 downHandler={this.rangeMouseDown}
                 upHandler={this.rangeMouseUp}
-                clickHandler={this.rangeMouseClick}
-                selectedCells = {this.state.selectedCells}/>
+                selectedCells = {this.state.selectedCells}
+                clickHandler = {this.deleteCell}/>
         <AllDay days={days}
                 downHandler={this.setAllDay}
                 upHandler={this.selectRange}
