@@ -1,7 +1,12 @@
-var React = require('react');
-var $ = require('jquery');
+import React from 'react';
+import $ from 'jquery';
 
 class AllDay extends React.Component{
+  constructor() {
+    super();
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+    this.handleMouseUp = this.handleMouseUp.bind(this);
+  }
   handleMouseDown(i) {
     this.props.downHandler(i)
   }

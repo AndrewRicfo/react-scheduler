@@ -1,8 +1,9 @@
-var React = require('react');
-var $ = require('jquery');
-var Table = require ('./Table');
-var AllDay = require ('./AllDay');
-var AllDays = require ('./AllDays');
+import React from 'react';
+import $ from 'jquery';
+import Table from './Table';
+import AllDay from './AllDay';
+import AllDays from './AllDays';
+
 
 
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday",];
@@ -22,6 +23,9 @@ class SchedulerComponent extends React.Component{
     this.rangeMouseDown = this.rangeMouseDown.bind(this);
     this.rangeMouseUp = this.rangeMouseUp.bind(this);
     this.rangeMouseMove = this.rangeMouseMove.bind(this);
+    this.setAllDays = this.setAllDays.bind(this);
+    this.setAllDay = this.setAllDay.bind(this);
+    this.selectRange = this.selectRange.bind(this);
     this.state = {
       dragStart: null,
       dragEnd: null,
@@ -136,6 +140,7 @@ class SchedulerComponent extends React.Component{
       return i.target.className+item;
     });
     list.push(i.target.className);
+    console.log(this);
     this.setState({
       selectedCells: this.state.selectedCells.concat(list)
     })

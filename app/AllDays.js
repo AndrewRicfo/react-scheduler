@@ -1,7 +1,12 @@
-var React = require('react');
-var $ = require('jquery');
+import React from 'react';
+import $ from 'jquery';
 
 class AllDays extends React.Component{
+  constructor() {
+    super();
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+    this.handleMouseUp = this.handleMouseUp.bind(this);
+  }
   handleMouseDown(i) {
     this.props.downHandler(i)
   }
@@ -9,9 +14,10 @@ class AllDays extends React.Component{
     this.props.upHandler(i)
   }
   render() {
-    var self = this;
     var _row = this.props.row;
     var _selectedCells = this.props.selectedCells;
+    var _handleMouseDown = this.handleMouseDown;
+    var _handleMouseUp = this.handleMouseUp;
     return (
       <div>
       <table className="table">
@@ -24,8 +30,8 @@ class AllDays extends React.Component{
             console.log(item);
             return(
               <td key={i}
-              onMouseDown={self.handleMouseDown}
-              onMouseUp={self.handleMouseUp}
+              onMouseDown={_handleMouseDown}
+              onMouseUp={_handleMouseUp}
               className={className}
               > </td>
             )
@@ -33,8 +39,8 @@ class AllDays extends React.Component{
             var className = item;
             return(
               <td key={i}
-              onMouseDown={self.handleMouseDown}
-              onMouseUp={self.handleMouseUp}
+              onMouseDown={_handleMouseDown}
+              onMouseUp={_handleMouseUp}
               className={className}
               > </td>
             )

@@ -1,6 +1,6 @@
 require('./main.css');
-var React = require('react');
-var ReactDOM = require('react-dom');
-var SchedulerComponent = require('./SchedulerComponent');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import SchedulerComponent from './SchedulerComponent'
 
 ReactDOM.render( <SchedulerComponent />, document.getElementById('app'));
