@@ -11,19 +11,40 @@ var AllDay = React.createClass({
   render: function() {
     var self = this;
     var _days = this.props.days;
+    var _selectedCells = this.props.selectedCells;
     return (
-      <ul className="all-day">
-        <p className="all-day-title">all day</p>
-        {_days.map(function(item,i){
-          return(
-            <li key={i}
-            onMouseDown={self.handleMouseDown}
-            onMouseUp={self.handleMouseUp}
-            className={item}
-            ></li>
-          )
-        })}
-      </ul>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>all day</th>
+          </tr>
+        </thead>
+        <tbody>
+          {_days.map(function(item,i){
+            if(_selectedCells.includes(item)){
+              var className = "selected"+" "+item;
+              console.log(className);
+              return(
+                <tr key={i}>
+                  <td onMouseDown={self.handleMouseDown}
+                      onMouseUp={self.handleMouseUp}
+                      className={className}>
+                  </td>
+                </tr>
+              )
+            }else {
+              var className = item;
+              return(
+                <tr key={i}>
+                  <td onMouseDown={self.handleMouseDown}
+                      onMouseUp={self.handleMouseUp}
+                      className={className}>
+                  </td>
+                </tr>)
+              }
+          })}
+        </tbody>
+      </table>
     )
   }
 })

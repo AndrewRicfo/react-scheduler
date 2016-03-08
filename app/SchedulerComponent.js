@@ -24,7 +24,6 @@ var SchedulerComponent = React.createClass({
       isMouseDown:false,
       isDragging: false,
       selectedCells:[]
-
     }
   },
   rangeMouseDown: function(e) {
@@ -71,7 +70,6 @@ var SchedulerComponent = React.createClass({
         dragEnd : allCells.index(e.target)
       });
       this.selectRange();
-    } else {
     }
   },
 
@@ -91,10 +89,10 @@ var SchedulerComponent = React.createClass({
         addList = filteredList.map(function(item,index){
           return item.id
         });
-
         this.setState({
           selectedCells: this.state.selectedCells.concat(addList)
         })
+
       } else {
         list =$(".table td").slice(this.state.dragStart, this.state.dragEnd +1);
         filteredList = list.filter(function(index){
@@ -104,7 +102,6 @@ var SchedulerComponent = React.createClass({
         addList = filteredList.map(function(item,index){
           return item.id
         });
-
         this.setState({
           selectedCells: this.state.selectedCells.concat(addList)
         })
@@ -121,57 +118,21 @@ var SchedulerComponent = React.createClass({
     return false;
   },
   setAllDay: function(i) {
-
-    switch (i.target.className) {
-      case 'Monday':
-      this.setState({
-        dragEnd:0,
-        dragStart:23
-      });
-      break;
-      case 'Tuesday':
-      this.setState({
-        dragEnd:24,
-        dragStart:47
-      });
-      break;
-      case 'Wednesday':
-      this.setState({
-        dragEnd:48,
-        dragStart:71
-      });
-      break;
-      case 'Thursday':
-      this.setState({
-        dragEnd:72,
-        dragStart:95
-      });
-      break;
-      case 'Friday':
-      this.setState({
-        dragEnd:96,
-        dragStart:119
-      });
-      break;
-      case 'Saturday':
-      this.setState({
-        dragEnd:120,
-        dragStart:143
-      });
-      break;
-      case 'Sunday':
-      this.setState({
-        dragEnd:144,
-        dragStart:167
-      });
-      break;
-    }
+    var list =[];
+    list = row.map(function(item){
+      return item+i.target.className;
+    })
+    list.push(i.target.className);
+    this.setState({
+      selectedCells: this.state.selectedCells.concat(list)
+    })
   },
   setAllDays: function (i) {
     var list =[];
     list = days.map(function(item){
       return i.target.className+item;
     });
+    list.push(i.target.className);
     this.setState({
       selectedCells: this.state.selectedCells.concat(list)
     })
@@ -180,17 +141,22 @@ var SchedulerComponent = React.createClass({
     return(
       <div className="scheduler-container">
         <Table days={days}
-              hours={hours}
-              row={row}
-              moveHandler={this.rangeMouseMove}
-              downHandler={this.rangeMouseDown}
-              upHandler={this.rangeMouseUp}
-              clickHandler={this.rangeMouseClick}
-              selectedCells = {this.state.selectedCells}
-              />
-          <AllDay days={days} downHandler={this.setAllDay}  upHandler={this.selectRange}/>
-          <div className="clear"></div>
-          <AllDays row={row} downHandler={this.setAllDays}  upHandler={this.selectRange} />
+                hours={hours}
+                row={row}
+                moveHandler={this.rangeMouseMove}
+                downHandler={this.rangeMouseDown}
+                upHandler={this.rangeMouseUp}
+                clickHandler={this.rangeMouseClick}
+                selectedCells = {this.state.selectedCells}/>
+        <AllDay days={days}
+                downHandler={this.setAllDay}
+                upHandler={this.selectRange}
+                selectedCells = {this.state.selectedCells}/>
+        <div className="clear"></div>
+        <AllDays row={row}
+                downHandler={this.setAllDays}
+                upHandler={this.selectRange}
+                selectedCells = {this.state.selectedCells}/>
       </div>
     )
   }
