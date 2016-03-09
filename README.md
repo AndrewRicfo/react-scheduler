@@ -1,10 +1,11 @@
 # react-scheduler
 
-react component for creating shcedules
+react component for creating schedules [live demo](http://hanakamer.github.io/react-scheduler/build/)
+
 
 ![image](https://raw.githubusercontent.com/hanakamer/react-scheduler/master/heart.png?token=AJ_qhPaMSwI7M2PW3XlQtvKlvAEsSYYcks5W6H7dwA%3D%3D)
 
-#install
+# install
 
 To start the project you have to install the dependencies for the app by running:
 ```
@@ -20,6 +21,6 @@ npm start
 ```
 command in the directory where webpack.config file is placed.
 
-#demo
+# preview
 
 ![demo](https://github.com/hanakamer/react-scheduler/blob/master/demo.gif)
